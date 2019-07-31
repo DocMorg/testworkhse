@@ -23,18 +23,19 @@ def create_parser():
         return parser
 
 
-def create_table(sheet, table_name):
+def create_table(sheet, table_name, flag=False):
     # Проверим, не существует ли уже данная таблица в бд:
     # Подключение к бд и получение курсора
     conn = psycopg2.connect(dbname='postgres', user='root',
                             password='toor', host='localhost')
     cursor = conn.cursor()
+    conn.autocommit = True
     query = "select tablename from pg_catalog.pg_tables where schemaname != 'information_schema' \
-             and schemaname != 'pg_catalog' and tablename = '" + table_name + "';"
+             and schemaname != 'pg_catalog' and tablename = '" + str(table_name) + "';"
     cursor.execute(query)
     # Если таблица существует - выходим, иначе - просто идём дальше
-    if cursor.fetchall():
-        exit('Таблица уже существует в базе, задайте аргумент -upd вместо -c')
+    if len(cursor.fetchall()) > 0:
+        exit('Table already exists in database, use argument -upd instead of -c')
     # Считаем названия столбцов в массив и определим их количество
     col_names = []
     i = 1
@@ -49,57 +50,53 @@ def create_table(sheet, table_name):
         while sheet.cell(j, n).value:
             j += 1
         if j > max_line:
-            max_line = j-1
+            max_line = j-2  # differ 2 because of last j+=1 and also we don't need names line
     # Дальше - обработка данных с форматированием
     data = [[''] * max_line for n in range(max_col)]
     types = []
     for n in range(1, max_col+1):
-        flag1 = True
-        flag2 = True
-        flag3 = True
-        flag4 = True
+        flag1 = False
+        flag2 = False
+        flag3 = False
         for j in range(2, max_line+2):
-            if sheet.cell(j, n).value is None:
+            if len(str(sheet.cell(j, n).value)) == 0 or sheet.cell(j, n).value is None:
                 k = 'NULL'
             else:
                 k = sheet.cell(j, n).value
                 if type(k) is datetime.datetime:
-                    pass
+                    flag1 = True
                 else:
-                    flag1 = False
                     try:
                         if not k % 1:
                             raise ValueError
+                        else:
+                            flag2 = True
                     except (ValueError, TypeError):
-                        flag2 = False
-                        flag3 = False
                         try:
                             k = int(k)
+                            flag3 = True
                         except ValueError:
-                            flag4 = False
                             try:
                                 k = str(k)
                             except ValueError:
                                 pass
             data[n-1][j-2] = k
         # Определим формат столбца и запишем его в список
-        if flag1 and not flag2 & flag3 & flag4:
+        if flag1 and not flag2 & flag3:
             types.append('timestamp')
         else:
-            if flag2 or flag4 and not flag1 & flag3:
+            if flag2 and not flag1 & flag3:
                 types.append('numeric')
             else:
-                if flag3 and not flag1 & flag2 & flag4:
+                if flag3 and not flag1 & flag2:
                         types.append('bigint')
                 else:
                     types.append('text')
-
     query = ''
     for i, j in zip(col_names, types):
         query += str(i) + ' ' + str(j) + ', '
     sqlcreatetable = 'create table ' + str(table_name) + ' (' + query[:-2] + ');'
     cursor.execute(sqlcreatetable)
-    conn.commit()
     add = ''
     for i in col_names:
         add += str(i) + ', '
@@ -107,14 +104,51 @@ def create_table(sheet, table_name):
     for j in range(0, max_line):
         string = '('
         for i in range(0, max_col):
-            if types[i] == 'text' or types[i] == 'timestamp':
-                string += "'" + str(data[i][j]) + "'" + ', '
+            if types[i] == 'timestamp' and data[i][j] == 'NULL':
+                string += "'" + 'N/A' + "', "
             else:
-                string += str(data[i][j]) + ', '
+                if types[i] == 'text' or types[i] == 'timestamp':
+                    string += "'" + str(data[i][j]) + "', "
+                else:
+                    string += str(data[i][j]) + ', '
         values += string[:-2] + '), '
     sqladd = 'insert into ' + str(table_name) + ' (' + add[:-2] + ') values' + values[:-2] + ';'
     cursor.execute(sqladd)
-    conn.commit()
+    cursor.close()
+    conn.close()
+    if flag:
+        return col_names
+    else:
+        exit('Table created successfully and filled with data')
+
+
+def update_table(sheet, table_name):
+    # Проверим, не существует ли уже данная таблица в бд:
+    # Подключение к бд и получение курсора
+    conn = psycopg2.connect(dbname='postgres', user='root',
+                            password='toor', host='localhost')
+    conn.autocommit = True
+    cursor = conn.cursor()
+    check = "select tablename from pg_catalog.pg_tables where schemaname != 'information_schema' \
+                 and schemaname != 'pg_catalog' and tablename = '" + str(table_name) + "';"
+    cursor.execute(check)
+    # Если таблица существует - выходим, иначе - просто идём дальше
+    if len(cursor.fetchall()) == 0:
+        exit('Table does not exists in database, use argument -c instead of -upd')
+    new_table_name = 'new____' + str(table_name)
+    col_names = create_table(sheet, new_table_name, True)
+    query = ''
+    for i in col_names:
+        query += str(i) + ', '
+    query = query[:-2]
+    query = 'insert into ' + str(table_name) + ' (' + query + ') '\
+            'select ' + query + ' from ' + new_table_name + ' where '\
+            'not exists(select 1 from ' + str(table_name) + ' where '\
+            + col_names[0] + ' = ' + new_table_name + '.' + col_names[0] + \
+            ' and ' + col_names[1] + ' = ' + new_table_name + + col_names[1] +\
+            ' ); ' + 'drop table if exists ' + new_table_name + ';'
+    cursor.execute(query)
+    print(query)
     cursor.close()
     conn.close()
 
@@ -131,11 +165,11 @@ def main():
                     args.excel[0]):
         excel = args.excel[0]
     else:
-        return 1
+        exit('Enter valid path to file')
     if args.add_index:
         index_col = args.add_index[0]
-    if args.update:
-        print('works')
+    if args.update and args.create:
+        exit('Please, select only ONE of the flag arguments: create or update')
     # Также проверим, нужного ли формата файл и можем ли его открыть,
     # если нет - выдаем ошибку и выходим из программы.
     try:
@@ -149,6 +183,8 @@ def main():
     sheet = wb.active
     if args.create:
         create_table(sheet, table_name)
+    if args.update:
+        update_table(sheet, table_name)
 
 
 if __name__ == '__main__':
