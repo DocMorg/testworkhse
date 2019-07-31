@@ -105,7 +105,7 @@ def create_table(sheet, table_name, flag=False):
         string = '('
         for i in range(0, max_col):
             if types[i] == 'timestamp' and data[i][j] == 'NULL':
-                string += "'" + 'N/A' + "', "
+                string += 'NULL, '
             else:
                 if types[i] == 'text' or types[i] == 'timestamp':
                     string += "'" + str(data[i][j]) + "', "
@@ -145,7 +145,7 @@ def update_table(sheet, table_name):
             'select ' + query + ' from ' + new_table_name + ' where '\
             'not exists(select 1 from ' + str(table_name) + ' where '\
             + col_names[0] + ' = ' + new_table_name + '.' + col_names[0] + \
-            ' and ' + col_names[1] + ' = ' + new_table_name + + col_names[1] +\
+            ' and ' + col_names[1] + ' = ' + new_table_name + '.' + col_names[1] +\
             ' ); ' + 'drop table if exists ' + new_table_name + ';'
     cursor.execute(query)
     print(query)
