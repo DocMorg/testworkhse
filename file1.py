@@ -10,11 +10,12 @@ def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('excel', type=str, action='store',
                         help='path to xlsx file', nargs=1)
+    parser.add_argument('-c', '--create', action='store_true',
+                        help='flag if entered file is to add new table to database')
     parser.add_argument('-ai', '--add_index', action='store', type=int,
                         help="adds index to the entered column by its number, if table and column exists", nargs=1)
-    parser.add_argument('-upd', '--update', action='store',
-                        help="flag if entered file is to update the existing table", nargs=1)
-    print(argv)
+    parser.add_argument('-upd', '--update', action='store_true',
+                        help="flag if entered file is to update the existing table")
     if len(argv) == 1:
         print('ERROR! You must specify path to file')
         return None
@@ -22,32 +23,18 @@ def create_parser():
         return parser
 
 
-def main():
-    # Создадим парсер и проверим входные аргументы
-    parser = create_parser()
-    if parser is None:
-        return 1
-    args = parser.parse_args()
-    if re.fullmatch(r'((((?<!\w)[A-Z,a-z]:)|(\.{1,2}\\))([^\b%\/\|:\n\"]'
-                    r'*))|(\2([^%\/\|:\n\"]*))|((?<!\w)(\.{1,2})?(?<!\/)'
-                    r'(\/((\\\b)|[^ \b%\|:\n\"\\\/])+)+\/?)',
-                    args.excel[0]):
-        excel = args.excel[0]
-    else:
-        return 1
-    if args.add_index:
-        index_col = args.add_index[0]
-    # Также проверим, нужного ли формата файл и можем ли его открыть,
-    # если нет - выдаем ошибку и выходим из программы.
-    try:
-        wb = load_workbook(excel, data_only=True)
-    except FileNotFoundError:
-        print('Error FileNot Found: Enter file path carefully once more')
-        return 1
-    # Выберем активный лист. По дефолту, программа работает только с ним.
-    # Для работы с другими листами нужно поменять следующую строку для выбора нужного.
-    table_name = wb.sheetnames[wb._active_sheet_index]
-    sheet = wb.active
+def create_table(sheet, table_name):
+    # Проверим, не существует ли уже данная таблица в бд:
+    # Подключение к бд и получение курсора
+    conn = psycopg2.connect(dbname='postgres', user='root',
+                            password='toor', host='localhost')
+    cursor = conn.cursor()
+    query = "select tablename from pg_catalog.pg_tables where schemaname != 'information_schema' \
+             and schemaname != 'pg_catalog' and tablename = '" + table_name + "';"
+    cursor.execute(query)
+    # Если таблица существует - выходим, иначе - просто идём дальше
+    if cursor.fetchall():
+        exit('Таблица уже существует в базе, задайте аргумент -upd вместо -c')
     # Считаем названия столбцов в массив и определим их количество
     col_names = []
     i = 1
@@ -107,14 +94,11 @@ def main():
                 else:
                     types.append('text')
 
-    conn = psycopg2.connect(dbname='postgres', user='root',
-                            password='toor', host='localhost')
-    cursor = conn.cursor()
     query = ''
     for i, j in zip(col_names, types):
         query += str(i) + ' ' + str(j) + ', '
-    # sqlcreatetable = 'create table ' + str(table_name) + ' (' + query[:-2] + ');'
-    # cursor.execute(sqlcreatetable)
+    sqlcreatetable = 'create table ' + str(table_name) + ' (' + query[:-2] + ');'
+    cursor.execute(sqlcreatetable)
     conn.commit()
     add = ''
     for i in col_names:
@@ -128,12 +112,46 @@ def main():
             else:
                 string += str(data[i][j]) + ', '
         values += string[:-2] + '), '
-    # sqladd = 'insert into ' + str(table_name) + ' (' + add[:-2] + ') values' + values[:-2] + ';'
-    # cursor.execute(sqladd)
+    sqladd = 'insert into ' + str(table_name) + ' (' + add[:-2] + ') values' + values[:-2] + ';'
+    cursor.execute(sqladd)
     conn.commit()
     cursor.close()
     conn.close()
 
 
+def main():
+    # Создадим парсер и проверим входные аргументы
+    parser = create_parser()
+    if parser is None:
+        return 1
+    args = parser.parse_args()
+    if re.fullmatch(r'((((?<!\w)[A-Z,a-z]:)|(\.{1,2}\\))([^\b%\/\|:\n\"]'
+                    r'*))|(\2([^%\/\|:\n\"]*))|((?<!\w)(\.{1,2})?(?<!\/)'
+                    r'(\/((\\\b)|[^ \b%\|:\n\"\\\/])+)+\/?)',
+                    args.excel[0]):
+        excel = args.excel[0]
+    else:
+        return 1
+    if args.add_index:
+        index_col = args.add_index[0]
+    if args.update:
+        print('works')
+    # Также проверим, нужного ли формата файл и можем ли его открыть,
+    # если нет - выдаем ошибку и выходим из программы.
+    try:
+        wb = load_workbook(excel, data_only=True)
+    except FileNotFoundError:
+        print('Error FileNot Found: Enter file path carefully once more')
+        return 1
+    # Выберем активный лист. По дефолту, программа работает только с ним.
+    # Для работы с другими листами нужно поменять следующую строку для выбора нужного.
+    table_name = wb.sheetnames[wb._active_sheet_index]
+    sheet = wb.active
+    if args.create:
+        create_table(sheet, table_name)
+
+
+
 if __name__ == '__main__':
     main()
+
