@@ -52,6 +52,8 @@ def create_table(sheet, table_name, flag=False):
         if j > max_line:
             max_line = j-2  # differ 2 because of last j+=1 and also we don't need names line
     # Дальше - обработка данных с форматированием
+    if max_line == 0:
+        exit('Table given is empty. Enter any data and try again.')
     data = [[''] * max_line for n in range(max_col)]
     types = []
     for n in range(1, max_col+1):
