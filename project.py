@@ -69,7 +69,7 @@ def create_table(sheet, table_name, flag=False):
                 k = 'NULL'
             else:
                 k = sheet.cell(j, n).value
-                if type(k) is datetime.datetime:
+                if isinstance(k, datetime.datetime):
                     flag1 = True
                 else:
                     try:
@@ -220,6 +220,8 @@ def main():
     if args.add_index:
         index_col = args.add_index[0]
         add_index(index_col, table_name)
+    else:
+        exit('No action specified')
 
 
 if __name__ == '__main__':
