@@ -64,6 +64,7 @@ def create_table(sheet, table_name, flag=False):
         flag1 = False
         flag2 = False
         flag3 = False
+        flag4 = False
         for j in range(2, max_line+2):
             if len(str(sheet.cell(j, n).value)) == 0 or sheet.cell(j, n).value is None:
                 k = 'NULL'
@@ -84,17 +85,18 @@ def create_table(sheet, table_name, flag=False):
                         except ValueError:
                             try:
                                 k = str(k)
+                                flag4 = True
                             except ValueError:
                                 pass
             data[n-1][j-2] = k
         # Определим формат столбца и запишем его в список
-        if flag1 and not flag2 & flag3:
+        if flag1 and not (flag2 or flag3 or flag4):
             types.append('timestamp')
         else:
-            if flag2 and not flag1 & flag3:
+            if flag2 and not (flag1 or flag3 or flag4):
                 types.append('numeric')
             else:
-                if flag3 and not flag1 & flag2:
+                if flag3 and not (flag1 or flag2 or flag4):
                         types.append('bigint')
                 else:
                     types.append('text')
@@ -123,7 +125,7 @@ def create_table(sheet, table_name, flag=False):
     cursor.close()
     conn.close()
     if flag:
-        return col_names
+        return col_names, types
     else:
         exit('Table created successfully and filled with data')
 
@@ -142,7 +144,16 @@ def update_table(sheet, table_name):
     if len(cursor.fetchall()) == 0:
         exit('Table does not exists in database, use argument -c instead of -upd')
     new_table_name = 'new____' + str(table_name)
-    col_names = create_table(sheet, new_table_name, True)
+    col_names, types = create_table(sheet, new_table_name, True)
+    check1 = "SELECT data_type FROM information_schema.columns where table_name = '" + str(table_name) + "';"
+    cursor.execute(check1)
+    new_types = cursor.fetchall()
+    new_types = [(type1[0]) for type1 in new_types]
+    for i in range(len(types)):
+        if types[i] != new_types[i]:
+            query1 = 'ALTER TABLE ' + str(table_name) + ' ALTER COLUMN ' + \
+                     str(col_names[i]) + ' TYPE text;'
+            cursor.execute(query1)
     query = ''
     for i in col_names:
         query += str(i) + ', '
@@ -156,6 +167,7 @@ def update_table(sheet, table_name):
     cursor.execute(query)
     cursor.close()
     conn.close()
+    exit('Data successfully updated')
 
 
 def add_index(index, table_name):
@@ -186,13 +198,13 @@ def add_index(index, table_name):
     exit('Index added successfully to the selected column')
 
 
-
 def main():
     # Создадим парсер и проверим входные аргументы
     parser = create_parser()
     if parser is None:
-        return 1
+        exit('No arguments entered')
     args = parser.parse_args()
+    excel = ''
     if re.fullmatch(r'((((?<!\w)[A-Z,a-z]:)|(\.{1,2}\\))([^\b%\/\|:\n\"]'
                     r'*))|(\2([^%\/\|:\n\"]*))|((?<!\w)(\.{1,2})?(?<!\/)'
                     r'(\/((\\\b)|[^ \b%\|:\n\"\\\/])+)+\/?)',
@@ -220,7 +232,7 @@ def main():
     if args.add_index:
         index_col = args.add_index[0]
         add_index(index_col, table_name)
-    else:
+    if not(args.create or args.update or args.add_index):
         exit('No action specified')
 
 
