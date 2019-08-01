@@ -136,7 +136,7 @@ def update_table(sheet, table_name):
     conn.autocommit = True
     cursor = conn.cursor()
     check = "select tablename from pg_catalog.pg_tables where schemaname != 'information_schema' \
-                 and schemaname != 'pg_catalog' and tablename like '" + str(table_name) + " ESCAPE '/'';"
+                 and schemaname != 'pg_catalog' and tablename like '" + str(table_name) + "' ESCAPE '/';"
     cursor.execute(check)
     # Если таблица существует - выходим, иначе - просто идём дальше
     if len(cursor.fetchall()) == 0:
