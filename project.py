@@ -43,6 +43,9 @@ def create_table(sheet, table_name, flag=False):
         col_names.append(sheet.cell(1, i).value)
         i += 1
     max_col = i-1
+    # Проверка на пустую таблицу
+    if max_col < 1:
+        exit('Table given is empty. Enter any data and try again.')
     # Найдем столбец с самой большой длиной, из-за возможных пропущенных значений
     j = 1
     max_line = -1
@@ -51,9 +54,10 @@ def create_table(sheet, table_name, flag=False):
             j += 1
         if j > max_line:
             max_line = j-2  # differ 2 because of last j+=1 and also we don't need names line
-    # Дальше - обработка данных с форматированием
-    if max_line == 0:
+    # Проверка на пустую таблицу
+    if max_line < 1:
         exit('Table given is empty. Enter any data and try again.')
+    # Дальше - обработка данных с форматированием
     data = [[''] * max_line for n in range(max_col)]
     types = []
     for n in range(1, max_col+1):
@@ -150,9 +154,37 @@ def update_table(sheet, table_name):
             ' and ' + col_names[1] + ' = ' + new_table_name + '.' + col_names[1] +\
             ' ); ' + 'drop table if exists ' + new_table_name + ';'
     cursor.execute(query)
-    print(query)
     cursor.close()
     conn.close()
+
+
+def add_index(index, table_name):
+    conn = psycopg2.connect(dbname='postgres', user='root',
+                            password='toor', host='localhost')
+    conn.autocommit = True
+    cursor = conn.cursor()
+    query = "select column_name from INFORMATION_SCHEMA.columns where table_name = '" + str(table_name) + "';"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    row_name = ''
+    try:
+        row_name = rows[index-1][0]
+    except IndexError:
+        exit('Column with given number does not exist. Index out of range error.')
+    testquery = "select t.relname as table_name, i.relname as index_name, a.attname as column_name from\
+                pg_class t, pg_class i, pg_index ix, pg_attribute a where t.oid = ix.indrelid and i.oid \
+                = ix.indexrelid and a.attrelid = t.oid and a.attnum = ANY(ix.indkey) and t.relkind = 'r' \
+                and t.relname like '" + str(table_name) + "' order by t.relname, i.relname;"
+    cursor.execute(testquery)
+    result = cursor.fetchall()[0]
+    if result[1] == "id" + str(index) or result[2] == row_name:
+        exit('Column index with the name already exists or column has an index already')
+    # query = "create unique index id" + str(index) + " ON " + str(table_name) + "(" + str(row_name) + ");"
+    # cursor.execute(query)
+    cursor.close()
+    conn.close()
+    exit('Index added successfully to the selected column')
+
 
 
 def main():
@@ -168,8 +200,6 @@ def main():
         excel = args.excel[0]
     else:
         exit('Enter valid path to file')
-    if args.add_index:
-        index_col = args.add_index[0]
     if args.update and args.create:
         exit('Please, select only ONE of the flag arguments: create or update')
     # Также проверим, нужного ли формата файл и можем ли его открыть,
@@ -187,6 +217,9 @@ def main():
         create_table(sheet, table_name)
     if args.update:
         update_table(sheet, table_name)
+    if args.add_index:
+        index_col = args.add_index[0]
+        add_index(index_col, table_name)
 
 
 if __name__ == '__main__':

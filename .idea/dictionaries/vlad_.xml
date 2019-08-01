@@ -1,8 +1,11 @@
 <component name="ProjectDictionaryState">
   <dictionary name="vlad_">
     <words>
+      <w>schemaname</w>
       <w>sqladd</w>
       <w>sqlcreatetable</w>
+      <w>tablename</w>
+      <w>xlsx</w>
     </words>
   </dictionary>
 </component>
