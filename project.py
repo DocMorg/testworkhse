@@ -6,23 +6,6 @@ import re
 import datetime
 
 
-def create_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('excel', type=str, action='store',
-                        help='path to xlsx file', nargs=1)
-    parser.add_argument('-c', '--create', action='store_true',
-                        help='flag if entered file is to add new table to database')
-    parser.add_argument('-ai', '--add_index', action='store', type=int,
-                        help="adds index to the entered column by its number, if table and column exists", nargs=1)
-    parser.add_argument('-upd', '--update', action='store_true',
-                        help="flag if entered file is to update the existing table")
-    if len(argv) == 1:
-        print('ERROR! You must specify path to file')
-        return None
-    else:
-        return parser
-
-
 def create_table(sheet, table_name, flag=False):
     # Проверим, не существует ли уже данная таблица в бд:
     # Подключение к бд и получение курсора
@@ -198,12 +181,8 @@ def add_index(index, table_name):
     exit('Index added successfully to the selected column')
 
 
-def main():
+def main(args):
     # Создадим парсер и проверим входные аргументы
-    parser = create_parser()
-    if parser is None:
-        exit('No arguments entered')
-    args = parser.parse_args()
     excel = ''
     if re.fullmatch(r'((((?<!\w)[A-Z,a-z]:)|(\.{1,2}\\))([^\b%\/\|:\n\"]'
                     r'*))|(\2([^%\/\|:\n\"]*))|((?<!\w)(\.{1,2})?(?<!\/)'
@@ -237,5 +216,19 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('excel', type=str, action='store',
+                        help='path to xlsx file', nargs=1)
+    parser.add_argument('-c', '--create', action='store_true',
+                        help='flag if entered file is to add new table to database')
+    parser.add_argument('-ai', '--add_index', action='store', type=int,
+                        help="adds index to the entered column by its number, if table and column exists", nargs=1)
+    parser.add_argument('-upd', '--update', action='store_true',
+                        help="flag if entered file is to update the existing table")
+    if len(argv) < 1:
+        exit('No arguments entered')
+    elif len(argv) < 2:
+        exit('ERROR! You must specify path to file')
+    args = parser.parse_args()
+    main(args)
 
