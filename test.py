@@ -18,7 +18,7 @@ class TestProject(unittest.TestCase):
         self.parser.add_argument('-upd', '--update', action='store_true',
                                  help="flag if entered file is to update the existing table")
 
-    def test_no_args(self):  # testing with no argument argparse systemexit error == 2
+    def test_no_args(self):  # testing with no existing argument, argparse systemexit error == 2
         # redirect error outputs of argparse lib to nowhere, they are catched, that's ok.
         data = ["./test_data/test1.xlsx", "-dagshi"]
         sys.stderr = io.StringIO()
@@ -29,7 +29,7 @@ class TestProject(unittest.TestCase):
         sys.stderr = sys.__stderr__
         self.assertEqual(cm.exception.code, 2)
 
-    def test_unexisting_args(self):
+    def test_unexisting_args(self):  # testing with no arguments, argparse systemexit error == 2
         # redirect error outputs of argparse lib to nowhere, they are catched, that's ok.
         sys.stderr = io.StringIO()
         data = []
