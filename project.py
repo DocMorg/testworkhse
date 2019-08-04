@@ -232,4 +232,3 @@ if __name__ == '__main__':
     elif len(argv) < 2:
         exit('ERROR! You must specify path to file')
     main(args)
-
