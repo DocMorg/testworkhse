@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="43" column="34" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+            <state relative-caret-position="418">
+              <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -311,7 +311,14 @@
       <option name="project" value="LOCAL" />
       <updated>1564756422939</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="updated workspace">
+      <created>1564921027145</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1564921027145</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -348,8 +355,8 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.29886687" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49966952" visible="true" weight="0.45892352" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.29886687" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49966952" weight="0.45892352" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50033045" side_tool="true" weight="0.34560907" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.26770538" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -422,11 +429,11 @@
     <MESSAGE value="fixed possible SQL injection" />
     <MESSAGE value="fixed type recognition. &#10;fixed type mismatch when updating table.&#10;other small fixes" />
     <MESSAGE value="update" />
-    <MESSAGE value="updated workspace" />
     <MESSAGE value="renamed file" />
     <MESSAGE value="changed workability for best work of unittest" />
     <MESSAGE value="added first test for checking empty file on entry. Added compatibility with argparse lib." />
-    <option name="LAST_COMMIT_MESSAGE" value="added first test for checking empty file on entry. Added compatibility with argparse lib." />
+    <MESSAGE value="updated workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated workspace" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/file2.py" />
@@ -484,8 +491,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="43" column="34" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+        <state relative-caret-position="418">
+          <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
