@@ -39,7 +39,7 @@ def create_table(sheet, table_name, flag=False):
             max_line = j-2  # differ 2 because of last j+=1 and also we don't need names line
     # Проверка на пустую таблицу
     if max_line < 1:
-        exit('Table given is empty. Enter any data and try again.')
+        exit('Table given is empty. Add some lines and try again.')
     # Дальше - обработка данных с форматированием
     data = [[''] * max_line for n in range(max_col)]
     types = []

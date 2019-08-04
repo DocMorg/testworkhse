@@ -18,13 +18,6 @@ class TestProject(unittest.TestCase):
         self.parser.add_argument('-upd', '--update', action='store_true',
                                  help="flag if entered file is to update the existing table")
 
-    def test_empty_file(self):  # testing if we have have not entered path to data
-        data = ["./test_data/test1.xlsx", "-c"]
-        with self.assertRaises(SystemExit) as cm:
-            args = self.parser.parse_args(data)
-            project.main(args)
-        self.assertEqual(cm.exception.code, 'Table given is empty. Enter any data and try again.')
-
     def test_no_args(self):  # testing with no argument argparse systemexit error == 2
         # redirect error outputs of argparse lib to nowhere, they are catched, that's ok.
         data = ["./test_data/test1.xlsx", "-dagshi"]
@@ -84,6 +77,33 @@ class TestProject(unittest.TestCase):
             project.main(args)
         self.assertEqual(cm.exception.code, 'No action specified')
 
+    def test_empty_file(self):  # testing if we have have not entered path to data
+        data = ["./test_data/test1.xlsx", "-c"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Table given is empty. Enter any data and try again.')
+
+    def test_empty_data(self):  # testing if we have have not entered path to data
+        data = ["./test_data/test2.xlsx", "-c"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Table given is empty. Add some lines and try again.')
+
+    def test_create_table(self):  # testing if we have have not entered path to data
+        data = ["./test_data/test3.xlsx", "-c"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Table created successfully and filled with data')
+
+    def test_update_table(self):  # testing if we have have not entered path to data
+        data = ["./test_data/test4.xlsx", "-upd"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Data successfully updated')
 
 
 if __name__ == '__main__':

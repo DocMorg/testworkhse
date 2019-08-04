@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4201469-0349-4689-849b-8b5744db4405" name="Default Changelist" comment="">
+    <list default="true" id="d4201469-0349-4689-849b-8b5744db4405" name="Default Changelist" comment="added InvalidFileException">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/vlad_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/vlad_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/project.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
@@ -17,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="999">
-              <caret line="231" column="52" selection-start-line="231" selection-start-column="52" selection-end-line="231" selection-end-column="52" />
+            <state relative-caret-position="1267">
+              <caret line="152" column="9" lean-forward="true" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="36" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -29,35 +30,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
+            <state relative-caret-position="386">
+              <caret line="105" column="75" selection-start-line="105" selection-start-column="75" selection-end-line="105" selection-end-column="75" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/argparse.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="2478" column="34" selection-start-line="2478" selection-start-column="28" selection-end-line="2478" selection-end-column="34" />
-              <folding>
-                <element signature="e#3282#3298#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="140">
-                <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-              </first_editor>
-              <second_editor />
             </state>
           </provider>
         </entry>
@@ -76,7 +53,6 @@
       <find>commit</find>
       <find>type</find>
       <find>table alre</find>
-      <find>enter</find>
       <find>print</find>
       <find>_sys</find>
       <find>sys</find>
@@ -84,6 +60,7 @@
       <find>stdout</find>
       <find>SUPPRESS</find>
       <find>stderr</find>
+      <find>enter</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -96,9 +73,9 @@
         <option value="$PROJECT_DIR$/file1.py" />
         <option value="$PROJECT_DIR$/1.py" />
         <option value="$PROJECT_DIR$/test_create_table.py" />
+        <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/argparse.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/project.py" />
-        <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/argparse.py" />
         <option value="$PROJECT_DIR$/test.py" />
       </list>
     </option>
@@ -136,7 +113,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ToolWindowTODO.ShowToolbar" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -318,7 +295,63 @@
       <option name="project" value="LOCAL" />
       <updated>1564921027145</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="updated workspace">
+      <created>1564921071514</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1564921071514</updated>
+    </task>
+    <task id="LOCAL-00014" summary="moved some code for best work">
+      <created>1564921143805</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1564921143805</updated>
+    </task>
+    <task id="LOCAL-00015" summary="added 2 tests">
+      <created>1564921170262</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1564921170262</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added test data file">
+      <created>1564928729267</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1564928729267</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added some errors catching">
+      <created>1564928767587</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1564928767587</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added some tests">
+      <created>1564928786077</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1564928786077</updated>
+    </task>
+    <task id="LOCAL-00019" summary="updated readme">
+      <created>1564929548476</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1564929548476</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added InvalidFileException">
+      <created>1564946748994</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1564946748994</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -343,7 +376,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.119629875" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -355,9 +387,9 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.29886687" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49966952" weight="0.45892352" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50033045" side_tool="true" weight="0.34560907" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49966952" weight="0.203966" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4990086" visible="true" weight="0.28611898" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5009914" side_tool="true" weight="0.45892352" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.26770538" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -432,8 +464,15 @@
     <MESSAGE value="renamed file" />
     <MESSAGE value="changed workability for best work of unittest" />
     <MESSAGE value="added first test for checking empty file on entry. Added compatibility with argparse lib." />
+    <MESSAGE value="moved some code for best work" />
+    <MESSAGE value="added 2 tests" />
     <MESSAGE value="updated workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated workspace" />
+    <MESSAGE value="added test data file" />
+    <MESSAGE value="added some errors catching" />
+    <MESSAGE value="added some tests" />
+    <MESSAGE value="updated readme" />
+    <MESSAGE value="added InvalidFileException" />
+    <option name="LAST_COMMIT_MESSAGE" value="added InvalidFileException" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/file2.py" />
@@ -459,29 +498,15 @@
     <entry file="file://$PROJECT_DIR$/htmlcov/jquery.hotkeys.js" />
     <entry file="file://$PROJECT_DIR$/htmlcov/coverage_html.js" />
     <entry file="file://$PROJECT_DIR$/htmlcov/status.json" />
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="140">
-            <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/test_data/invalid_file.xl">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="999">
-          <caret line="231" column="52" selection-start-line="231" selection-start-column="52" selection-end-line="231" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/coverage.xml">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/argparse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
+        <state relative-caret-position="-34">
           <caret line="2478" column="34" selection-start-line="2478" selection-start-column="28" selection-end-line="2478" selection-end-column="34" />
           <folding>
             <element signature="e#3282#3298#0" expanded="true" />
@@ -489,10 +514,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="300">
+            <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1267">
+          <caret line="152" column="9" lean-forward="true" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
+        <state relative-caret-position="386">
+          <caret line="105" column="75" selection-start-line="105" selection-start-column="75" selection-end-line="105" selection-end-column="75" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
