@@ -6,9 +6,6 @@ import io
 
 
 class TestProject(unittest.TestCase):
-    def write(self, arg):
-            pass
-
     def setUp(self):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('excel', type=str, action='store',
@@ -30,6 +27,7 @@ class TestProject(unittest.TestCase):
 
     def test_no_args(self):  # testing with no argument argparse systemexit error == 2
         # redirect error outputs of argparse lib to nowhere, they are catched, that's ok.
+        data = ["./test_data/test1.xlsx", "-dagshi"]
         sys.stderr = io.StringIO()
         data = []
         with self.assertRaises(SystemExit) as cm:
@@ -38,7 +36,17 @@ class TestProject(unittest.TestCase):
         sys.stderr = sys.__stderr__
         self.assertEqual(cm.exception.code, 2)
 
-    def test_help(self): # testing argparse --help systemexit == 0 and all ok
+    def test_unexisting_args(self):
+        # redirect error outputs of argparse lib to nowhere, they are catched, that's ok.
+        sys.stderr = io.StringIO()
+        data = []
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        sys.stderr = sys.__stderr__
+        self.assertEqual(cm.exception.code, 2)
+
+    def test_help(self):  # testing argparse --help systemexit == 0 and all ok
         data = ["-h"]
         # output suppressed
         sys.stdout = io.StringIO()
@@ -47,6 +55,35 @@ class TestProject(unittest.TestCase):
             project.main(args)
         sys.stdout = sys.__stdout__
         self.assertEqual(cm.exception.code, 0)
+
+    def test_file_not_found(self):  # testing invalid file exception openpyxl error
+        data = ["./invalid_file.xl"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Error InvalidFileException: Enter file path carefully once more')
+
+    def test_file_does_not_exist(self):  # testing invalid file exception found error
+        data = ["./file_does_not_exist.xlsx"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Error FileNotFound: Enter file path carefully once more')
+
+    def test_two_flags(self):
+        data = ["./test_data/test1.xlsx", "-c", "-upd"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'Please, select only ONE of the flag arguments: create or update')
+
+    def test_no_action(self):
+        data = ["./test_data/test1.xlsx"]
+        with self.assertRaises(SystemExit) as cm:
+            args = self.parser.parse_args(data)
+            project.main(args)
+        self.assertEqual(cm.exception.code, 'No action specified')
+
 
 
 if __name__ == '__main__':
