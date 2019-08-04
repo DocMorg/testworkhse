@@ -1,4 +1,4 @@
-from openpyxl import load_workbook
+from openpyxl import load_workbook, utils
 from sys import argv
 import psycopg2
 import argparse
@@ -165,7 +165,7 @@ def add_index(index, table_name):
     try:
         row_name = rows[index-1][0]
     except IndexError:
-        exit('Column with given number does not exist. Index out of range error.')
+        exit('Column with given number does not exist. Index out of range error. Check if table exists')
     testquery = "select t.relname as table_name, i.relname as index_name, a.attname as column_name from\
                 pg_class t, pg_class i, pg_index ix, pg_attribute a where t.oid = ix.indrelid and i.oid \
                 = ix.indexrelid and a.attrelid = t.oid and a.attnum = ANY(ix.indkey) and t.relkind = 'r' \
@@ -198,8 +198,9 @@ def main(args):
     try:
         wb = load_workbook(excel, data_only=True)
     except FileNotFoundError:
-        print('Error FileNot Found: Enter file path carefully once more')
-        return 1
+        exit('Error FileNotFound: Enter file path carefully once more')
+    except utils.exceptions.InvalidFileException:
+        exit('Error InvalidFileException: Enter file path carefully once more')
     # Выберем активный лист. По дефолту, программа работает только с ним.
     # Для работы с другими листами нужно поменять следующую строку для выбора нужного.
     table_name = wb.sheetnames[wb._active_sheet_index]
