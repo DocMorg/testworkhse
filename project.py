@@ -225,10 +225,10 @@ if __name__ == '__main__':
                         help="adds index to the entered column by its number, if table and column exists", nargs=1)
     parser.add_argument('-upd', '--update', action='store_true',
                         help="flag if entered file is to update the existing table")
+    args = parser.parse_args()
     if len(argv) < 1:
         exit('No arguments entered')
     elif len(argv) < 2:
         exit('ERROR! You must specify path to file')
-    args = parser.parse_args()
     main(args)
 
