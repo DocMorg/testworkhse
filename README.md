@@ -5,4 +5,15 @@
 Excel to PostgreSQL transmitter written on Python 3.7
 
 for help type in command line:
-python project.py -h
+  
+  $ python project.py -h
+
+This is the test work, which purpose is to merge data from Microsoft Excel 
+  (.xlsx format) data files to PostgreSQL database.
+  It supports creating table with excel file on input, updating it and adding
+  indexes. If there is an type intersection in one row during
+  updating or creating, the whole row will be converted to string format.
+  Names of the rows should be on the first line of the file. 
+ 
+In the 'test.py' file are the tests made for this program.
+
