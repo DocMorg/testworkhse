@@ -3,4 +3,4 @@ LABEL MAINTAINER Vladislav Ustimov 'viustimov@edu.hse.ru'
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt -v
-CMD RUN project.py
+CMD RUN ./project.py
