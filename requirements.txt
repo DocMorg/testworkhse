@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 openpyxl==2.6.3
 psycopg2==2.8.3
 argparse==1.4.0
+=======
+openpyxl==2.6.3
+psycopg2==2.8.3
+argparse==1.4.0
+>>>>>>> 38b329e31dbe834ef6a9c87a713bedfba80333b0
